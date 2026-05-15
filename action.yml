@@ -1,0 +1,31 @@
+name: 'BridgedAI Auth'
+description: 'Authenticate GitHub Actions to BridgedAI using GitHub OIDC.'
+branding:
+  icon: 'shield'
+  color: 'blue'
+inputs:
+  api-url:
+    description: 'BridgedAI API base URL (https). Required in production mode.'
+    required: false
+  tenant:
+    description: 'BridgedAI tenant identifier.'
+    required: true
+  audience:
+    description: 'OIDC audience for the GitHub OIDC token request.'
+    required: true
+  mode:
+    description: 'production (default) exchanges OIDC for a BridgedAI access token. mock is only for tests/demos.'
+    required: false
+    default: 'production'
+outputs:
+  access-token:
+    description: 'BridgedAI access token (masked).'
+  tenant-id:
+    description: 'Resolved tenant id from BridgedAI.'
+  session-id:
+    description: 'BridgedAI session id for traceability.'
+  expires-at:
+    description: 'Access token expiry timestamp (ISO-8601).'
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

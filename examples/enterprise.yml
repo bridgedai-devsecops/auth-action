@@ -1,0 +1,28 @@
+name: example-auth-enterprise
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: bridgedai-auth-${{ github.repository }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  auth:
+    runs-on: ubuntu-latest
+    environment: bridgedai-production
+    steps:
+      - uses: bridgedai-devsecops/auth-action@v1.0.0
+        id: bridgedai
+        with:
+          api-url: ${{ vars.BRIDGEDAI_API_URL }}
+          tenant: ${{ vars.BRIDGEDAI_TENANT }}
+          audience: ${{ vars.BRIDGEDAI_OIDC_AUDIENCE }}
+          mode: production
+
+      - name: Downstream placeholder (do not print tokens)
+        run: echo "Auth step completed."
+

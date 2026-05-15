@@ -1,0 +1,33 @@
+{
+  "name": "@bridgedai/auth-action",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Authenticate GitHub Actions to BridgedAI using GitHub OIDC.",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "ncc build src/index.ts -o dist --minify --no-source-map-register",
+    "e2e": "vitest run tests/e2e"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@actions/core": "^1.11.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/node": "^20.14.10",
+    "@typescript-eslint/eslint-plugin": "^8.8.1",
+    "@typescript-eslint/parser": "^8.8.1",
+    "@vercel/ncc": "^0.38.3",
+    "eslint": "^9.9.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.8.1",
+    "vitest": "^2.0.5"
+  },
+  "license": "MIT"
+}
