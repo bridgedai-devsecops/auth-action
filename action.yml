@@ -1,12 +1,14 @@
 name: 'BridgedAI Auth'
 description: 'Authenticate GitHub Actions to BridgedAI using GitHub OIDC.'
+author: 'BridgedAI'
 branding:
   icon: 'shield'
   color: 'blue'
 inputs:
   api-url:
-    description: 'BridgedAI API base URL (https). Required in production mode.'
+    description: 'BridgedAI API base URL (https). Defaults to https://api.bridgedai.io when omitted.'
     required: false
+    default: 'https://api.bridgedai.io'
   tenant:
     description: 'BridgedAI tenant identifier.'
     required: true
