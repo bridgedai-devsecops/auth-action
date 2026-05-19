@@ -2,7 +2,7 @@
 
 ## What this action does
 
-Exchanges a GitHub Actions OIDC token for a BridgedAI access token by calling `POST /api/v1/auth/github-oidc/exchange`.
+Exchanges a GitHub Actions OIDC token for a BridgedAI access token by calling `POST /v1/auth/github-oidc/exchange` on **`https://api.bridgedai.io`** (default when `api-url` is omitted).
 
 ## Why BridgedAI exists
 
@@ -37,7 +37,7 @@ jobs:
 
 | Name | Required | Description |
 | --- | --- | --- |
-| `api-url` | Yes in `production` | BridgedAI API base URL (`https://…`). |
+| `api-url` | No | BridgedAI API base URL; defaults to `https://api.bridgedai.io`. |
 | `tenant` | Yes | Tenant identifier. |
 | `audience` | Yes | OIDC audience for `core.getIDToken`. |
 | `mode` | No | `production` (default) or explicit `mock` for tests only. |
@@ -58,7 +58,7 @@ jobs:
 
 ## Required secrets / variables
 
-- Organization or repository variables: `BRIDGEDAI_API_URL`, `BRIDGEDAI_TENANT`, `BRIDGEDAI_OIDC_AUDIENCE` (recommended).
+- Organization or repository variables: `BRIDGEDAI_API_URL` (set to `https://api.bridgedai.io` for production), `BRIDGEDAI_TENANT`, `BRIDGEDAI_OIDC_AUDIENCE` (recommended). `api-url` is optional because production defaults to `https://api.bridgedai.io`.
 - No static API keys are required for the OIDC exchange path (token is short-lived).
 
 ## Example workflows
@@ -67,7 +67,7 @@ See `examples/basic.yml` and `examples/enterprise.yml`.
 
 ## Failure modes
 
-- Missing `api-url` in production mode.
+- OIDC exchange endpoint not enabled on your BridgedAI environment (`POST /v1/auth/github-oidc/exchange`).
 - OIDC issuance failures (missing `id-token: write`, wrong audience).
 - Non-2xx responses from BridgedAI (network, auth misconfiguration, unavailable backend).
 
