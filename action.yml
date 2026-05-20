@@ -19,6 +19,38 @@ inputs:
     description: 'production (default) exchanges OIDC for a BridgedAI access token. mock is only for tests/demos.'
     required: false
     default: 'production'
+  bridgedai-api-url:
+    description: 'Alias for api-url — BridgedAI API base URL.'
+    required: false
+  bridgedai-token:
+    description: 'Optional pre-issued BridgedAI token (skips OIDC exchange when set).'
+    required: false
+  organization-id:
+    description: 'Optional organization id override (defaults to tenant-id from auth response).'
+    required: false
+  installation-id:
+    description: 'Optional GitHub App installation id for context resolution.'
+    required: false
+  auth-mode:
+    description: 'api-key (default) uses bridgedai-token; oidc exchanges GitHub OIDC for a short-lived BridgedAI token.'
+    required: false
+    default: 'api-key'
+  use-github-oidc:
+    description: 'When true, exchange GitHub OIDC when bridgedai-token is not set (legacy; prefer auth-mode=oidc).'
+    required: false
+    default: 'false'
+  fail-on-auth-error:
+    description: 'Fail the step when authentication or API reachability checks fail.'
+    required: false
+    default: 'true'
+  auth-context-file:
+    description: 'Where to write auth/session context JSON for downstream actions.'
+    required: false
+    default: '.bridgedai/auth-session.json'
+  signals-file:
+    description: 'Where to append auth health signals (JSONL).'
+    required: false
+    default: '.bridgedai/signals.jsonl'
 outputs:
   access-token:
     description: 'BridgedAI access token (masked).'
@@ -28,6 +60,22 @@ outputs:
     description: 'BridgedAI session id for traceability.'
   expires-at:
     description: 'Access token expiry timestamp (ISO-8601).'
+  bridgedai-session-id:
+    description: 'Alias for session-id.'
+  organization-id:
+    description: 'Resolved BridgedAI organization id.'
+  repository:
+    description: 'GitHub repository (owner/name) when available.'
+  commit-sha:
+    description: 'Git commit SHA when available.'
+  workflow-run-id:
+    description: 'GitHub workflow run id when available.'
+  api-reachable:
+    description: 'true when the BridgedAI API responded to a health probe.'
+  auth-context-file:
+    description: 'Path to the written auth session context file.'
+  auth-method-used:
+    description: 'Authentication method used (api-key, github-oidc, or mock).'
 runs:
   using: 'node20'
   main: 'dist/index.js'
